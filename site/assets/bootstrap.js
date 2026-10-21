@@ -12,9 +12,9 @@
     if (route.condition === 'aggregated') {
       const task = await json(`data/aggregated/${route.taskId}.json`);
       if (task.id !== route.taskId || !Array.isArray(task.runs)) throw new Error('Aggregation data do not match this task.');
-      const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = new URL('assets/aggregate.css', root).href;
+      const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = new URL('assets/aggregate.css?rev=72c31bd88b38', root).href;
       document.head.append(css);
-      const {renderAggregate} = await import(new URL('assets/aggregate.js', root).href);
+      const {renderAggregate} = await import(new URL('assets/aggregate.js?rev=557828da4f3f', root).href);
       renderAggregate(task);
       return;
     }
@@ -23,7 +23,7 @@
     if (episode.id !== route.id || !Array.isArray(episode.steps) || !Array.isArray(episode.edges)) throw new Error('The trajectory file does not match the requested review link.');
     const task = manifest.tasks.find(task => task.id === route.taskId);
     window.TRAJECTORIES = {meta: manifest.meta, tasks: [{...task, episodes: [episode]}]};
-    await import(new URL('assets/viewer.js', root).href);
+    await import(new URL('assets/viewer.js?rev=a588f0e78bd6', root).href);
   } catch (error) {
     document.querySelector('#goal').textContent = 'Visualization unavailable';
     document.querySelector('#error').textContent = error.message;
