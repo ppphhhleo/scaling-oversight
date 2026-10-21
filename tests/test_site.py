@@ -40,6 +40,27 @@ class SiteTests(unittest.TestCase):
         self.assertEqual(manifest['meta'], {'episodes': 320, 'steps': 14340, 'won': 55})
         self.assertEqual({p.stem for p in (SITE / 'data/alfworld').glob('*.json')}, ids)
 
+    def test_aggregation_matches_published_episodes(self):
+        manifest = json.loads((SITE / 'data/manifest.json').read_text())
+        for task in manifest['tasks']:
+            with self.subTest(task=task['id']):
+                raw = (SITE / 'data/aggregated' / (task['id'] + '.json')).read_bytes()
+                self.assertEqual(hashlib.sha256(raw).hexdigest(), task['aggregation_sha256'])
+                aggregate = json.loads(raw)
+                self.assertEqual(aggregate['id'], task['id'])
+                episodes = {e['id']: e for e in task['episodes']}
+                self.assertEqual({r['id'] for r in aggregate['runs']}, set(episodes))
+                self.assertEqual(len(aggregate['runs']), len(episodes))
+                self.assertEqual(aggregate['won'], sum(e['won'] for e in episodes.values()))
+                for run in aggregate['runs']:
+                    self.assertEqual(run['won'], episodes[run['id']]['won'])
+                    self.assertEqual(run['n'], episodes[run['id']]['steps'])
+                    for field in ['tokens', 'dep_tokens']:
+                        indices = [token[1] for token in run[field]]
+                        self.assertEqual(indices, sorted(set(indices)))
+                        self.assertTrue(all(0 <= i < run['n'] for i in indices))
+                        self.assertTrue(all(isinstance(t[0], str) and t[0] for t in run[field]))
+
     def test_static_assets_are_local_and_present(self):
         for page in SITE.glob('*.html'):
             for path in re.findall(r'(?:src|href)="([^"]+)"', page.read_text()):

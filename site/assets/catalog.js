@@ -15,6 +15,9 @@ try {
     const section = element('section', undefined, 'task');
     section.append(element('h2', `${task.id} · ${task.goal}`));
     section.append(element('p', `${task.episodes.filter(ep => ep.won).length}/${task.episodes.length} runs succeeded`, 'task-summary'));
+    const aggregate = element('a', 'Aggregated paths · all 16 runs', 'aggregate');
+    aggregate.href = `typed.html?${new URLSearchParams({dataset:'alfworld',id:task.id,condition:'aggregated',v:'1'})}`;
+    section.append(aggregate);
     const list = element('ul', undefined, 'runs');
     for (const episode of task.episodes) {
       const item = element('li');

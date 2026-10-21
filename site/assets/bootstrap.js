@@ -9,7 +9,15 @@
   try {
     const manifest = await json('data/manifest.json');
     const route = ReviewRoutes.read(location.search, manifest);
-    if (!['pure', 'highlight'].includes(route.condition)) throw new Error('This viewer supports condition=highlight or condition=pure for one recorded trajectory. Aggregated and embodied views are not included.');
+    if (route.condition === 'aggregated') {
+      const task = await json(`data/aggregated/${route.taskId}.json`);
+      if (task.id !== route.taskId || !Array.isArray(task.runs)) throw new Error('Aggregation data do not match this task.');
+      const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = new URL('assets/aggregate.css', root).href;
+      document.head.append(css);
+      const {renderAggregate} = await import(new URL('assets/aggregate.js', root).href);
+      renderAggregate(task);
+      return;
+    }
     // read() validates the ID against the local manifest before constructing a data path.
     const episode = await json(`data/alfworld/${route.id}.json`);
     if (episode.id !== route.id || !Array.isArray(episode.steps) || !Array.isArray(episode.edges)) throw new Error('The trajectory file does not match the requested review link.');

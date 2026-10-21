@@ -12,7 +12,7 @@ A static ALFWorld trajectory viewer for human review. The site preserves the typ
 typed.html?dataset=alfworld&id=t004_b01&condition=highlight&v=1
 ```
 
-`id` selects a recorded episode (`t000_b00` through `t019_b15`). `condition=highlight` enables the prerequisite graph and path views; `condition=pure` shows the recorded sequence. Aggregated and embodied views are not included in this package. `v=1` is the URL contract version, not an immutable data or code snapshot. Freeze a Git revision for a reproducible study.
+`id` selects a recorded episode (`t000_b00` through `t019_b15`). `condition=highlight` enables the prerequisite graph and path views; `condition=pure` shows the recorded sequence. `condition=aggregated` uses a task ID (for example `id=t004`) and shows the section 2 PTA visualization over its 16 runs. Embodied views are not included. `v=1` is the URL contract version, not an immutable data or code snapshot. Freeze a Git revision for a reproducible study.
 
 Optional hash parameters retain viewer selections, for example `#view=longest&step=17`. The catalog contains links for every episode.
 
@@ -26,11 +26,20 @@ Embed the viewer in a survey:
 </iframe>
 ```
 
+## Aggregated view (PTA only)
+
+[Example: t004, all 16 runs](https://ppphhhleo.github.io/scaling-oversight/typed.html?dataset=alfworld&id=t004&condition=aggregated&v=1)
+
+This is the existing prototype’s section 2, with optional controls under **Display settings**. No milestone funnel, step strips, dependency-analysis panel, or outcome-association table is included. Default: task-milestone tokens, merged-by-depth layout, all runs. Choose **prefix tree (exact prefixes)** for a strict PTA; merged-by-depth is a flow abstraction and can join distinct histories. Node height and link width encode run counts; hue encodes eventual win rate; darker nodes and end bars encode termination. Dashed links fold intervening exploration steps. Click a node for links to its supporting runs.
+
+Two deterministic token sources are retained from the original prototype: task-aware canonical actions (fixed ALFWorld rules) and steps touched by inferred dependency edges. Both drop instance numbers. This dependency-token extractor includes lineage and differs from the single-trace viewer’s prerequisite-only graph. Aggregated paths are canonical action sequences, not dependency paths or equivalent world states. Run filtering, layout, and color selections are local UI state and are not encoded in the link.
+
 ## Contents and method
 
 - `site/typed.html` and `site/assets/`: viewer and catalog; no external runtime dependencies.
 - `site/data/manifest.json`: catalog, source identifiers, and per-episode checksums.
 - `site/data/alfworld/`: one JSON file per episode. Only the selected episode is fetched.
+- `site/data/aggregated/`: compact canonical tokens for each task; source-prototype checksum in the manifest.
 - `tests/`: data integrity and static asset checks.
 - `.github/workflows/pages.yml`: validation and Pages deployment.
 
