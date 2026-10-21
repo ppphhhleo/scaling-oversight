@@ -97,7 +97,7 @@ function title(s){const a=s.parsedAction;return a?[a.verb==='go'?'go to':a.verb,
 function inspect(){
  if(inspected===null)return '';
  const s=episode.steps[inspected],links=route.condition==='highlight'?g.edges.filter(e=>e.from===inspected||e.to===inspected):[];
- return `<article class="step-detail"><h2>Step ${inspected+1} <code>${esc(s.action||'[empty recorded action]')}</code></h2><p><span class="field-label">Environment response</span>${esc(s.obs)}</p>${route.condition==='highlight'?`<div class="detail-counts">${g.incoming[inspected].size} direct ${g.incoming[inspected].size===1?'prerequisite':'prerequisites'} · ${g.outgoing[inspected].size} direct ${g.outgoing[inspected].size===1?'dependent':'dependents'}</div>${s.stateChanges.length?`<ul>${s.stateChanges.map(c=>`<li>${esc(c.fact)}: ${esc(c.before)} → ${esc(c.after)}</li>`).join('')}</ul>`:''}<div class="fact-links">${links.map(e=>`<button data-step="${e.to===inspected?e.from:e.to}">${e.to===inspected?'←':'→'} Step ${(e.to===inspected?e.from:e.to)+1}<span>${esc(e.facts.join('; '))}</span></button>`).join('')||'<span>No supported prerequisite links for this step.</span>'}</div>`:''}<details><summary>Recorded pre-action observation and available commands (${s.adm.length})</summary><p>${esc(s.pre)}</p><ul>${s.adm.map(a=>`<li><code>${esc(a)}</code></li>`).join('')}</ul></details><details><summary>Original recorded response</summary><pre>${esc(s.response||'[empty]')}</pre></details></article>`;
+ return `<article class="step-detail"><h2>Step ${inspected+1} <code>${esc(s.action||'[empty recorded action]')}</code></h2><p><span class="field-label">Environment response</span>${esc(s.obs)}</p>${route.condition==='highlight'?`<div class="detail-counts">${g.incoming[inspected].size} direct ${g.incoming[inspected].size===1?'prerequisite':'prerequisites'} · ${g.outgoing[inspected].size} direct ${g.outgoing[inspected].size===1?'dependent':'dependents'}</div>${s.stateChanges.length?`<ul>${s.stateChanges.map(c=>`<li>${esc(c.fact)}: ${esc(c.before)} → ${esc(c.after)}</li>`).join('')}</ul>`:''}<div class="fact-links">${links.map(e=>`<button data-step="${e.to===inspected?e.from:e.to}">${e.to===inspected?'←':'→'} Step ${(e.to===inspected?e.from:e.to)+1}<span>${esc(e.facts.join('; '))}</span></button>`).join('')||'<span>No supported prerequisite links for this step.</span>'}</div>`:''}</article>`;
 }
 function applyZoom(){
  const svg=$('#branch-svg');if(!svg)return;
@@ -106,7 +106,7 @@ function applyZoom(){
  $('#zoom-label').textContent=Math.round(scale*100)+'%';
 }
 function render(){
- if(route.condition==='pure'){renderPure();return;}
+ if(route.condition==='pure'||route.condition==='h'){renderPure();return;}
  const pair=BranchGraph.comparison(g,selected),path=pair.long,short=pair.short;
  const activeNodes=new Set(path),shortNodes=new Set(short),activeEdges=new Set(path.slice(1).map((j,i)=>`${path[i]}:${j}`));
  const n=episode.steps.length,width=Math.max(700,n*30+50),height=365,y=170,x=i=>30+i*(width-60)/Math.max(1,n-1);currentLayout={width,height};
@@ -144,7 +144,11 @@ function bindSteps(){
  });
 }
 function renderPure(){
- $('#graph').innerHTML=`<p class="graph-note">Recorded actions · click a step to read its observation.</p><div class="pure-steps">${episode.steps.map((s,i)=>`<button data-step="${i}" aria-pressed="${selected===i}">${i+1} · ${esc(s.action||'[empty]')}</button>`).join('')}</div><div id="step-detail-host">${inspect()}</div>`;bindSteps();
+ const path=route.condition==='h'?BranchGraph.longest(g):[];
+ const pathSteps=new Set(path.length>1?path:[]);
+ const note=route.condition==='h'?(pathSteps.size?'Teal steps = one longest prerequisite path. Click a step to read its observation.':'No prerequisite path found. Click a step to read its observation.'):'Recorded actions · click a step to read its observation.';
+ $('#graph').innerHTML=`<p class="graph-note">${note}</p><div class="pure-steps">${episode.steps.map((s,i)=>`<button class="${pathSteps.has(i)?'longest-step':''}" data-step="${i}" aria-pressed="${selected===i}" aria-label="Step ${i+1}: ${esc(s.action||'[empty]')}${pathSteps.has(i)?' · longest prerequisite path':''}"><span>${i+1} · ${esc(s.action||'[empty]')}</span>${pathSteps.has(i)?'<span class="path-badge">Longest path</span>':''}</button>`).join('')}</div><div id="step-detail-host">${inspect()}</div>`;bindSteps();
 }
+
 window.addEventListener('hashchange',()=>{if(episode){settings();zoom='fit';render();}});
 window.addEventListener('popstate',load);window.addEventListener('resize',()=>{if(zoom==='fit')applyZoom();});load();

@@ -12,7 +12,7 @@ A static ALFWorld trajectory viewer for human review. The site preserves the typ
 typed.html?dataset=alfworld&id=t004_b01&condition=highlight&v=1
 ```
 
-`id` selects a recorded episode (`t000_b00` through `t019_b15`). `condition=highlight` enables the prerequisite graph and path views; `condition=pure` shows the recorded sequence. `condition=aggregated` uses a task ID (for example `id=t004`) and shows the section 2 PTA visualization over its 16 runs. Embodied views are not included. `v=1` is the URL contract version, not an immutable data or code snapshot. Freeze a Git revision for a reproducible study.
+`id` selects a recorded episode (`t000_b00` through `t019_b15`). `condition=highlight` enables the prerequisite graph and path views; `condition=pure` shows the recorded sequence. `condition=h` uses the same plain step layout and highlights the steps of one longest prerequisite path for the whole trace. Clicking a step changes the displayed observation, not the highlighted path. Ties keep one representative path; traces without dependency edges have no highlighted steps. `condition=aggregated` uses a task ID (for example `id=t004`) and shows the section 2 PTA visualization over its 16 runs. Embodied views are not included. `v=1` is the URL contract version, not an immutable data or code snapshot. Freeze a Git revision for a reproducible study.
 
 Optional hash parameters retain viewer selections, for example `#view=longest&step=17`. The catalog contains links for every episode.
 

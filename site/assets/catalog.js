@@ -26,7 +26,10 @@ try {
       const pure = element('a', 'Pure', 'pure');
       pure.href = `typed.html?${new URLSearchParams({dataset:'alfworld',id:episode.id,condition:'pure',v:'1'})}`;
       pure.setAttribute('aria-label', `${episode.id}: recorded sequence without highlighting`);
-      item.append(primary, element('span', episode.won ? 'Won' : 'Not won', episode.won ? 'won' : 'not-won'), pure);
+      const pathView = element('a', 'H', 'path-view');
+      pathView.href = `typed.html?${new URLSearchParams({dataset:'alfworld',id:episode.id,condition:'h',v:'1'})}`;
+      pathView.setAttribute('aria-label', `${episode.id}: plain steps with longest path highlighted`);
+      item.append(primary, element('span', episode.won ? 'Won' : 'Not won', episode.won ? 'won' : 'not-won'), pure, pathView);
       list.append(item);
       records.push({section, item, text:`${task.id} ${task.goal} ${episode.id}`.toLowerCase()});
     }

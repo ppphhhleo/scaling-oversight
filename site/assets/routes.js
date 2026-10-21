@@ -2,7 +2,7 @@
 // Pure URL contract. The only dataset is the bundled, versioned ALFWorld snapshot.
 (function (root) {
   const version = '1';
-  const modes = {pure: 'raw', highlight: 'highlight', aggregated: 'aggregate'};
+  const modes = {pure: 'raw', h: 'path-steps', highlight: 'highlight', aggregated: 'aggregate'};
   function read(search, data) {
     const q = new URLSearchParams(search);
     const allowed = ['dataset', 'id', 'condition', 'v'];
@@ -17,8 +17,8 @@
     if ((q.get('v') ?? version) !== version) throw new Error('Unsupported viewer version. This file implements v=1. Use a frozen copy of the required version.');
     if (q.get('dataset') !== 'alfworld') throw new Error('Dataset unavailable. This file bundles only dataset=alfworld; it does not load external dataset URLs.');
     const condition = q.get('condition'), id = q.get('id');
-    if (condition === 'embodied') throw new Error('Embodied map unavailable. These logs contain no coordinates, scene geometry, or replayable simulator snapshots. Use pure, highlight, or aggregated.');
-    if (!Object.hasOwn(modes, condition)) throw new Error('Unknown condition. Supported conditions: pure, highlight, aggregated.');
+    if (condition === 'embodied') throw new Error('Embodied map unavailable. These logs contain no coordinates, scene geometry, or replayable simulator snapshots. Use pure, h, highlight, or aggregated.');
+    if (!Object.hasOwn(modes, condition)) throw new Error('Unknown condition. Supported conditions: pure, h, highlight, aggregated.');
     const task = condition === 'aggregated'
       ? data.tasks.find(t => t.id === id)
       : data.tasks.find(t => t.episodes.some(e => e.id === id));

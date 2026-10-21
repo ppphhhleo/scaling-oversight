@@ -17,3 +17,9 @@
 .branch-node:hover .degree-node,.branch-node:focus .degree-node{stroke:#123d36;stroke-width:3}
 
 .degree-legend{margin-bottom:14px}
+
+/* Readable step text shared by plain, path-highlighted and graph views. */
+.pure-steps{gap:9px}.pure-steps button{font-size:18px;line-height:1.5;padding:10px 13px;max-width:100%;overflow-wrap:anywhere;display:flex;align-items:center;flex-wrap:wrap;gap:6px 12px}
+.pure-steps button[aria-pressed=true]{background:#fff;color:var(--ink);border-color:var(--ink);box-shadow:0 0 0 2px var(--ink)}
+.pure-steps .longest-step,.pure-steps .longest-step[aria-pressed=true]{background:#e4f2ef;color:#164e48;border-color:#247b74;border-left-width:4px}.path-badge{font-size:12px;font-weight:600;white-space:nowrap;color:#1c625b}
+.step-detail h2,.step-detail h2 code,.step-detail p,.path-list button,.path-list code{font-family:inherit;font-size:18px;line-height:1.6;font-weight:400}.step-detail h2 code{font-weight:400}.step-detail .field-label{font-size:12px}.path-list button{padding:10px 12px}.path-list button span{min-width:65px}
