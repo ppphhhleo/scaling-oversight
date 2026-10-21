@@ -14,7 +14,7 @@
       if (task.id !== route.taskId || !Array.isArray(task.runs)) throw new Error('Aggregation data do not match this task.');
       const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = new URL('assets/aggregate.css?rev=72c31bd88b38', root).href;
       document.head.append(css);
-      const {renderAggregate} = await import(new URL('assets/aggregate.js?rev=557828da4f3f', root).href);
+      const {renderAggregate} = await import(new URL('assets/aggregate.js?rev=42e670bd7631', root).href);
       renderAggregate(task);
       return;
     }
