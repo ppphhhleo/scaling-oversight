@@ -5,7 +5,7 @@
 .branch-edge.shortest-edge.active{stroke:#bd920b;stroke-width:3;stroke-opacity:1}.shortest-key{border-color:#bd920b}.branch-node.on-shortest rect:not(.hit-area){stroke:#bd920b;stroke-width:2}.branch-node.selected rect:not(.hit-area){stroke:#183e39;stroke-width:4}.path-lists{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:16px}.path-list{border-top:3px solid var(--teal);padding-top:8px;min-width:0}.path-list.short-list{border-color:#bd920b}.path-list summary{font-size:13px;cursor:pointer}.path-list ol{list-style:none;margin:8px 0 0;padding:0;max-height:260px;overflow:auto}.path-list li{margin:3px 0}.path-list button{display:flex;gap:12px;text-align:left;width:100%;border:0;background:#f5f8f6;padding:7px 9px;font-size:12px}.short-list button{background:#fffbee}.path-list button span{min-width:48px;color:#61736c}.path-list code{white-space:normal;overflow-wrap:anywhere}.graph-viewport{max-height:580px}@media(max-width:600px){.path-lists{grid-template-columns:1fr}}
 .short-path-items{max-height:320px;overflow:auto}.short-path-item{padding:10px 0;border-bottom:1px solid #e5ddbd}.short-path-item h3{font-size:12px;font-weight:500;margin:0 0 5px}.short-path-item p{font-size:11px;color:#6c622f;margin:5px 0}.short-path-item ol{max-height:none}
 
-#success-description{margin:-8px 0 20px;color:var(--muted);font-size:13px;line-height:1.5}#success-description strong{font-weight:600;color:var(--ink)}
+#success-description{margin:-4px 0 24px;color:var(--ink);font-size:18px;line-height:1.6}#success-description strong{font-weight:600;color:var(--ink)}
 
 .path-list button[aria-current="step"]{box-shadow:inset 3px 0 var(--teal)}.short-list button[aria-current="step"]{box-shadow:inset 3px 0 #bd920b}
 
@@ -15,3 +15,5 @@
 .branch-node .degree-node{stroke:#91aaa2}.branch-node.on-path .degree-node{stroke:#247b74;stroke-width:2}.branch-node.on-shortest .degree-node{stroke:#bd920b;stroke-width:2}.branch-node.selected .degree-node{stroke:#183e39;stroke-width:4}
 .branch-node .invalid-overlay{fill:url(#node-hatch)!important;stroke:none!important;pointer-events:none}
 .branch-node:hover .degree-node,.branch-node:focus .degree-node{stroke:#123d36;stroke-width:3}
+
+.degree-legend{margin-bottom:14px}
