@@ -23,7 +23,7 @@
     if (episode.id !== route.id || !Array.isArray(episode.steps) || !Array.isArray(episode.edges)) throw new Error('The trajectory file does not match the requested review link.');
     const task = manifest.tasks.find(task => task.id === route.taskId);
     window.TRAJECTORIES = {meta: manifest.meta, tasks: [{...task, episodes: [episode]}]};
-    await import(new URL('assets/viewer.js?rev=9cf3a336a72d', root).href);
+    await import(new URL('assets/viewer.js?rev=daca4f35f0cf', root).href);
   } catch (error) {
     document.querySelector('#goal').textContent = 'Visualization unavailable';
     document.querySelector('#error').textContent = error.message;
