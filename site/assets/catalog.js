@@ -28,7 +28,7 @@ try {
       pure.setAttribute('aria-label', `${episode.id}: recorded sequence without highlighting`);
       const pathView = element('a', 'H', 'path-view');
       pathView.href = `typed.html?${new URLSearchParams({dataset:'alfworld',id:episode.id,condition:'h',v:'1'})}`;
-      pathView.setAttribute('aria-label', `${episode.id}: plain steps with longest path highlighted`);
+      pathView.setAttribute('aria-label', `${episode.id}: plain view with key steps highlighted`);
       item.append(primary, element('span', episode.won ? 'Won' : 'Not won', episode.won ? 'won' : 'not-won'), pure, pathView);
       list.append(item);
       records.push({section, item, text:`${task.id} ${task.goal} ${episode.id}`.toLowerCase()});

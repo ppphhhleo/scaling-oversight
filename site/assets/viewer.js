@@ -146,8 +146,8 @@ function bindSteps(){
 function renderPure(){
  const path=route.condition==='h'?BranchGraph.longest(g):[];
  const pathSteps=new Set(path.length>1?path:[]);
- const note=route.condition==='h'?(pathSteps.size?'Teal steps = one longest prerequisite path. Click a step to read its observation.':'No prerequisite path found. Click a step to read its observation.'):'Recorded actions · click a step to read its observation.';
- $('#graph').innerHTML=`<p class="graph-note">${note}</p><div class="pure-steps">${episode.steps.map((s,i)=>`<button class="${pathSteps.has(i)?'longest-step':''}" data-step="${i}" aria-pressed="${selected===i}" aria-label="Step ${i+1}: ${esc(s.action||'[empty]')}${pathSteps.has(i)?' · longest prerequisite path':''}"><span>${i+1} · ${esc(s.action||'[empty]')}</span>${pathSteps.has(i)?'<span class="path-badge">Longest path</span>':''}</button>`).join('')}</div><div id="step-detail-host">${inspect()}</div>`;bindSteps();
+ const note=route.condition==='h'?(pathSteps.size?'Teal steps = key steps. Click a step to read its observation.':'No key steps identified. Click a step to read its observation.'):'Recorded actions · click a step to read its observation.';
+ $('#graph').innerHTML=`<p class="graph-note">${note}</p><div class="pure-steps">${episode.steps.map((s,i)=>`<button class="${pathSteps.has(i)?'longest-step':''}" data-step="${i}" aria-pressed="${selected===i}" aria-label="Step ${i+1}: ${esc(s.action||'[empty]')}${pathSteps.has(i)?' · key step':''}"><span>${i+1} · ${esc(s.action||'[empty]')}</span>${pathSteps.has(i)?'<span class="path-badge">Key step</span>':''}</button>`).join('')}</div><div id="step-detail-host">${inspect()}</div>`;bindSteps();
 }
 
 window.addEventListener('hashchange',()=>{if(episode){settings();zoom='fit';render();}});
